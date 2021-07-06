@@ -1,0 +1,138 @@
+<div class="studentsWrapper">
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Student List</h3>
+      <ol class="studentList">
+        <li *ngFor="let student of studentList" (click)="selectStudent(student)">
+          <h5>{{ student.name }} </h5>
+          <p *ngIf="student.assignedBooks">{{ student.assignedBooks.length }} books assigned.</p>
+          <p *ngIf="!student.assignedBooks">No books assigned.</p>
+          <a href="mailto:{{student.email}}" target="_blank"><i class="material-icons" style="right:36px !important;">email</i></a>
+          <i class="material-icons">open_in_new</i>
+        </li>
+      </ol>
+    </div>
+    <div class="col-md-6">
+      <div class="actionButtons">
+        <a href="mailto:{{ emails }}" target="_blank"><button class="btn btn-primary" type="button"> Send email to all </button></a>
+        <button class="btn btn-primary" (click)="selectedStudent = null"> Add Student </button>
+      </div>
+      <div class="formWrappers">
+        <div class="addStudent" *ngIf="!selectedStudent">
+          <h5>Add Student</h5>
+          <form [formGroup]="addForm" (ngSubmit)="addStudent()">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="email">Name</label>
+                  <input class="form-control" formControlName="name" type="text" name="name"/>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input class="form-control" formControlName="email" type="email" name="email"/>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="email">Phone</label>
+                  <input class="form-control" formControlName="phone" type="number" name="phone"/>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="course">Select Course</label>
+                  <select class="form-control" formControlName="course" name="course">
+                    <option *ngFor="let course of courseList" value="{{course.key}}">{{course.name}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary">Save</button>
+                  <button type="reset" class="btn">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="editStudent" *ngIf="selectedStudent">
+          <h5>Edit Student</h5>
+          <form [formGroup]="editForm" (ngSubmit)="updateStudent()">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input class="form-control" formControlName="name" type="text" name="name" value="{{ selectedStudent.name }}"/>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input class="form-control" formControlName="email" type="email" name="email" value="{{ selectedStudent.email }}"/>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="phone">Phone</label>
+                  <input class="form-control" formControlName="phone" type="number" name="phone" value="{{ selectedStudent.phone }}"/>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="course">Select Course</label>
+                  <select class="form-control" formControlName="course" name="course">
+                    <option *ngFor="let course of courseList" value="{{course.key}}">{{course.name}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Assigned Books</label>
+                  <ol class="assignedBooks">
+                    <li *ngIf="!selectedStudent.assignedBooks" style="list-style:none;"><h5>No books assigned</h5></li>
+                    <li *ngFor="let assignedBook of selectedStudent.assignedBooks, let i = index">
+                      <h5>{{assignedBook.book.title}}</h5>
+                      <p>{{assignedBook.validFrom}}-{{assignedBook.validTill}}</p>
+                      <i class="material-icons" [swal]="['You are about to delete a assigned book!', 'Are you sure?', 'warning']" (confirm)="deleteAssignedBook(i)" (cancel)="cancelDelete()">delete</i>
+                    </li>
+                  </ol>
+                  <div class="assignNewBooks" *ngIf="booksList">
+                    <button *ngIf="booksList.length" type="button" class="btn btn-primary" style="margin-top:15px; margin-bottom:15px;" (click)="assignNewBook = true;">Assign Book</button>
+                    <form [formGroup]="assignBook" (ngSubmit)="assignBookToStudent()" *ngIf="assignNewBook">
+                      <div class="form-group">
+                        <label for="book">Select Book</label>
+                        <select class="form-control" formControlName="book" name="book">
+                          <option *ngFor="let courseBook of booksList" value="{{courseBook.key}}">{{courseBook.title}}</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="validFrom">Valid From</label>
+                        <input class="form-control" type="date" formControlName="validFrom" name="validFrom"/>
+                      </div>
+                      <div class="form-group">
+                        <label for="validTill">Valid Till</label>
+                        <input class="form-control" type="date" formControlName="validTill" name="validTill"/>
+                      </div>
+                      <div class="form-group">
+                          <button type="submit" class="btn btn-primary">Assign</button>
+                          <button type="reset" class="btn">Cancel</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary">Update</button>
+                  <button type="button" class="btn btn-danger" [swal]="['You are about to delete a Student!', 'Are you sure?', 'warning']" (confirm)="deleteStudent()" (cancel)="cancelDelete()">Delete Student</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+
+header {
+    background-color:#3F51B5;
+    color: #ffffff;
+    position: fixed;
+    left: 0px;
+    top:0px;
+    width: 100%px;
+    z-index: 500;
+}
+
+main {
+    color: #ffffff;
+}
+
+.content {
+    color: #000000;
+    padding-top: 60px;
+}

@@ -1,0 +1,103 @@
+<div class="studentsWrapper">
+    <div class="row">
+      <div class="col-md-6">
+        <h3>Course List</h3>
+        <ol class="studentList">
+          <li *ngFor="let course of courseList" (click)="selectCourse(course)">
+            <h5>{{ course.name }}</h5>
+            <p *ngIf="course.assignedBooks">{{ course.assignedBooks.length }} books in course.</p>
+            <p *ngIf="!course.assignedBooks">No books assigned.</p>
+            <i class="material-icons">open_in_new</i>
+          </li>
+        </ol>
+      </div>
+      <div class="col-md-6">
+        <div class="actionButtons">
+          <button class="btn btn-primary" (click)="selectedCourse = null"> Add Course </button>
+        </div>
+        <div class="formWrappers">
+          <div class="addStudent" *ngIf="!selectedCourse">
+            <h5>Add Course</h5>
+            <form [formGroup]="addForm" (ngSubmit)="addCourse()">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="email">Name</label>
+                    <input class="form-control" formControlName="name" type="text" name="name"/>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="email">key</label>
+                    <input class="form-control" formControlName="key" type="email" name="key"/>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="reset" class="btn">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="editStudent" *ngIf="selectedCourse">
+            <h5>Edit Student</h5>
+            <form [formGroup]="editForm" (ngSubmit)="updateCourse()">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="name">Name</label>
+                    <input class="form-control" formControlName="name" type="text" name="name" value="{{ selectedCourse.name }}"/>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="key">key</label>
+                    <input class="form-control" formControlName="key" type="text" name="key" value="{{ selectedCourse.key }}" readonly/>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Assigned Books</label>
+                    <ol class="assignedBooks">
+                      <li *ngIf="!selectedCourse.assignedBooks" style="list-style:none;"><h5>No books assigned</h5></li>
+                      <li *ngFor="let assignedBook of selectedCourse.assignedBooks, let i = index">
+                        <h5>{{ assignedBook.title }}</h5>
+                        <i class="material-icons" [swal]="['You are about to delete a assigned book!', 'Are you sure?', 'warning']" (confirm)="deleteAssignedBook(i)" (cancel)="cancelDelete()">delete</i>
+                      </li>
+                    </ol>
+                    <div class="assignNewBooks" *ngIf="booksList.length">
+                      <button *ngIf="booksList.length" type="button" class="btn btn-primary" style="margin-top:15px; margin-bottom:15px;" (click)="assignNewBook = true;">Assign Book</button>
+                      <form [formGroup]="assignBook" (ngSubmit)="assignBookToCourse()" *ngIf="assignNewBook">
+                        <div class="form-group">
+                          <label for="book">Select Book</label>
+                          <select class="form-control" formControlName="book" name="book">
+                            <option *ngFor="let book of booksList" value="{{book.key}}">{{book.title}}</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label for="semester">Semester</label>
+                          <input class="form-control" type="number" formControlName="semester" name="semester"/>
+                        </div>
+                        <div class="form-group">
+                          <button type="submit" class="btn btn-primary">Assign</button>
+                          <button type="reset" class="btn">Cancel</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="button" class="btn btn-danger" [swal]="['You are about to delete a course!', 'Are you sure?', 'warning']" (confirm)="deleteCourse()" (cancel)="cancelDelete()">Delete Course</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

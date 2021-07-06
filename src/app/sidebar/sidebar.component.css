@@ -1,0 +1,33 @@
+.sidebar {
+    height: calc(100vh - 40px);
+    background: #8abad6;
+    position: fixed;
+    left: 0px;
+    top: 60px;
+    z-index: 499;
+    width: 16.666667%;
+}
+
+ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+li {
+    text-align: left;
+    border-bottom:1px solid #FFFFFF;
+}
+
+li a { 
+    color: #FFFFFF;
+    font-weight: bold;
+    display: block;
+    text-decoration: none;
+    padding: 10px; 
+    padding-left: 20px;
+}
+
+li.active {
+    background: #2995d3;
+}

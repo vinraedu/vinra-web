@@ -1,0 +1,58 @@
+<div class="studentsWrapper">
+    <div class="row">
+      <div class="col-md-6">
+        <h3>Notification List</h3>
+        <ol class="studentList">
+          <li *ngFor="let notification of notificationList">
+            <h5>{{ notification.title }} </h5>
+            <p>{{ notification.message }} </p>
+            <p>{{ notification.email }}, {{ notification.url }}</p>
+          </li>
+        </ol>
+      </div>
+      <div class="col-md-6">
+        <div class="actionButtons">
+          <h4>&nbsp;</h4>
+        </div>
+        <div class="formWrappers">
+          <div class="addStudent">
+            <h5>Add Notification</h5>
+            <form [formGroup]="addForm" (ngSubmit)="addNotification()">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="title">Title</label>
+                    <input class="form-control" formControlName="title" type="text" name="title"/>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="key">Message</label>
+                      <input class="form-control" formControlName="message" type="text" name="message"/>
+                    </div>
+                  </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="semester">Email</label>
+                    <input class="form-control" formControlName="email" type="email" name="email"/>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="email">URL</label>
+                    <input class="form-control" formControlName="url" type="url" name="url"/>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Send</button>
+                    <button type="reset" class="btn">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

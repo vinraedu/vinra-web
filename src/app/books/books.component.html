@@ -1,0 +1,96 @@
+<div class="studentsWrapper">
+    <div class="row">
+      <div class="col-md-6">
+        <h3>Books List</h3>
+        <ol class="studentList">
+          <li *ngFor="let book of booksList" (click)="selectBook(book)">
+            <h5>{{ book.title }} </h5>
+            <i class="material-icons">open_in_new</i>
+          </li>
+        </ol>
+      </div>
+      <div class="col-md-6">
+        <div class="actionButtons">
+          <button class="btn btn-primary" (click)="addNewBookClick()"> Add Book </button>
+        </div>
+        <div class="formWrappers">
+          <div class="addStudent" *ngIf="!selectedBook">
+            <h5>Add Book</h5>
+            <form [formGroup]="addForm" (ngSubmit)="addBook()">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="title">Title</label>
+                    <input class="form-control" formControlName="title" type="text" name="title"/>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="key">Key</label>
+                      <input class="form-control" formControlName="key" type="text" name="key"/>
+                    </div>
+                  </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="semester">Select PDF</label>
+                    <input class="form-control" formControlName="file" type="file" name="semester" accept=".pdf" (change)="uplodFileToFirebase($event)"/>
+                    <span *ngIf="uploadProgress">PDF uploaded successfully.</span>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="email">URL</label>
+                    <input class="form-control" formControlName="url" type="url" name="url" readonly/>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary" [disabled]="!uploadProgress">Save</button>
+                    <button type="reset" class="btn">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="editBook" *ngIf="selectedBook">
+            <h5>Edit Book</h5>
+            <form [formGroup]="editForm" (ngSubmit)="updateBook()">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="title">Title</label>
+                    <input class="form-control" formControlName="title" type="text" name="title" value="{{selectedBook.title}}"/>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="key">Key</label>
+                      <input class="form-control" formControlName="key" type="text" name="key" value="{{selectedBook.key}}" readonly/>
+                    </div>
+                  </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="semester">Select PDF</label>
+                    <input class="form-control" formControlName="file" type="file" name="semester" accept=".pdf" (change)="uplodFileToFirebase($event)"/>
+                    <span *ngIf="uploadProgress">PDF uploaded successfully.</span>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="email">URL</label>
+                    <input class="form-control" formControlName="url" type="url" name="url" value="{{selectedBook.url}}" readonly/>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary" [disabled]="!uploadProgress">Update</button>
+                    <button type="reset" class="btn btn-danger" [swal]="['You are about to delete a Book!', 'Are you sure?', 'warning']" (confirm)="deleteBook()">Delete Book</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

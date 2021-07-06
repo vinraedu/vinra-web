@@ -1,0 +1,18 @@
+.loginForm {
+    position: fixed;
+    width: 320px;
+    height: 300px;
+    top:0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    margin: auto;
+}
+
+.loginForm .alertHolder {
+    display: none;
+}
+
+.loginForm .alertHolder.show {
+    display: block;
+}

@@ -1,0 +1,13 @@
+.statsCard {
+    display: inline-block;
+    margin-right: 30px;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+    padding: 30px;
+    width: 240px;
+    cursor: pointer;
+}
+
+.cardsWrapper {
+    padding: 30px;
+}

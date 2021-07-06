@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="cardsWrapper">
+      <div class="statsCard" [routerLink]="['/cms/courses/']">
+        <label>Courses</label>
+        <h3>{{courseList.length}}</h3>
+      </div>
+      <div class="statsCard" [routerLink]="['/cms/students/']">
+        <label>Students</label>
+        <h3>{{studentList.length}}</h3>
+      </div>
+      <div class="statsCard" [routerLink]="['/cms/books/']">
+        <label>Books</label>
+        <h3>{{booksList.length}}</h3>
+      </div>
+      <div class="statsCard" [routerLink]="['/cms/notifications/']">
+        <label>Notifications</label>
+        <h3>{{notificationList.length}}</h3>
+      </div>
+    </div>
+  </div>
+</div>
